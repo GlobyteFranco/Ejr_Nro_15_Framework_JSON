@@ -28,13 +28,6 @@ public class JsonVector implements JsonElement {
         this.jsonElementList.add(jsonElement);
     }
 
-    // @Override
-    // public JsonElement hasJsonElement() {
-    //     if (this.jsonElementList.isEmpty()) {
-    //         return null;
-    //     } else {
-    //         return this.jsonElementList.get(this.jsonElementList.size() - 1);
-    //     }
-    // }
+    
 
 }

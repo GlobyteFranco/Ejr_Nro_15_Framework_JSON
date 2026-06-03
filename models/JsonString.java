@@ -20,6 +20,10 @@ public class JsonString implements JsonElement {
         throw new IllegalStateException("The object does not support this type of insertion");
     }
 
+    public String getJsonText() {
+        return jsonText;
+    }
+
     // @Override
     // public JsonElement hasJsonElement() {
     //     throw new UnsupportedOperationException("Unimplemented method 'insertJsonElement'");

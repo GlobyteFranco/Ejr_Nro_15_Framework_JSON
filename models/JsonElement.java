@@ -8,6 +8,5 @@ interface JsonElement {
     // json o devolver una excepcion de no poder hacerlo
     public void insertJsonElement(JsonElement jsonElement);
 
-    // TODO devolver la ultima referencia a un objeto JsonElement o NULL si no la
-    // tiene
+    
 }
