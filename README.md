@@ -21,3 +21,5 @@ Un ejemplo de una estructura en json:
 {"firstName":"Anna", "lastName":"Smith"},
 {"firstName":"Peter", "lastName":"Jones"}
 ]}
+# Logica de Negocio Principal
+Vamos a hacer un objeto JSON que tenga un diccionario que de clave posea un String y de valor un generico que pueda ser String, Int, otro JSON o un vector que sea combinacion de esos 3. Tenemos que ver como podemos hacer genericos que se limiten a tipos especificos de datos. Vamos a tener que crear la interfaz JSON para que sepa que puede poseerla y de ahi sacamos el composite de paso. 
