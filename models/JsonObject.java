@@ -6,6 +6,8 @@ import java.util.Map;
 public class JsonObject implements JsonElement {
     private Map<String, JsonElement> jsonMap = new LinkedHashMap<String, JsonElement>();
 
+    private String waitingStringKey = "";
+
     public JsonObject() {
     }
 
@@ -23,39 +25,51 @@ public class JsonObject implements JsonElement {
         return stringBuilder.toString();
     }
 
-    public void addJsonElement(String jsonKey, JsonElement jsonElement) {
-        jsonMap.put(jsonKey, jsonElement);
-    }
-
-    // TODO usar el metodo de estado implicito. A continuacion mi explicacion a
-    // Gemini que satisface la del metodo: lo que voy a hacer es, para evitar
-    // agregar estado innecesario al JsonObject, hacer que el metodo valide si el
-    // elemento final del mapa tiene un valor nulo. De ser el caso significa que lo
-    // que le pasaron tiene que pisarlo. De no tener el ultimo elemento un valor
-    // nulo, significa que lo que le pasaron es la clave, por lo que habria que
-    // validar que sea un string (lo que haria es un casting) y de estar bien lo
-    // insertaria como un nuevo elemento del mapa con su clave y valor nulo. En el
-    // caso de querer ingresar algo que no sea un String como clave tiraria alguna
-    // excepcion. A priori la de IllegalArgumentException me parece bien.
+    // Primero le pasamos la clave y luego el valor. <String, JsonElement> -->
+    // Encapsulados en un JsonElement
     @Override
-    public void insertJsonElement(JsonElement jsonElement) {// *El jsonElement puede ser o un String como clave o un
-                                                            // JsonElement cualquiera para insertar como valor
-        if (jsonMap.isEmpty()) {
+    public void insertJsonElement(JsonElement jsonElement) {
+
+        if (waitingStringKey.trim().isEmpty()) {
+
             if (jsonElement instanceof JsonString) {
                 JsonString claveJsonMap = (JsonString) jsonElement;
-                jsonMap.put(claveJsonMap.getJsonText(), null);
+                if (claveJsonMap.getJsonText().trim().isEmpty()) {
+                    throw new IllegalStateException("Blank space cannot be a key in this program dude");
+                }
+                waitingStringKey = claveJsonMap.getJsonText();
             } else {
 
                 throw new IllegalArgumentException(
                         "Cannot insert a value if there is not a previous element with a key");
             }
-        } else {// TODO de haber un elemento puede ser que sea uno con clave y sin valor
-                // esperandolo o un elemento completo. Para el primer caso se aceptaria
-                // cualquier JsonElement y se agregaria como valor y para el segundo solamente
-                // un elemento JsonString
-
+        } else {
+            jsonMap.put(waitingStringKey, jsonElement);
+            waitingStringKey = "";
 
         }
 
+    }
+
+    @Override
+    public void insertJsonElementInLastNull(JsonElement jsonElement) {
+        // *Esta funcion se deberia usar cuando quiero agregar un JsonObject o
+        // JsonVector, porque voy a dejar el objeto padre como null para empezar un
+        // nuevo algoritmo hijo aparte (solo podemos hacer un objeto a la vez por las
+        // limitaciones de la consola) y cuando tengamos el nuevo objeto insertarlo en
+        // el ultimo elemento hijo que dejamos para ser insertado. Lo ideal seria poder
+        // dejar varias generaciones de objetos null para que la funcion sepa donde
+        // ingresar datos o donde puede llegar a hacerlo. El elemento nulo deberia ser
+        // el ultimo por generacion
+        // TODO 1. Ubicar si hay un elemento nulo
+        // TODO 2. Insertar en este
+        jsonMap.forEach((key, value) -> {
+            if (value == null) {
+                jsonMap.replace(key, jsonElement);
+
+            } else {
+                value.insertJsonElementInLastNull(jsonElement);
+            }
+        });
     }
 }

@@ -24,9 +24,9 @@ public class JsonString implements JsonElement {
         return jsonText;
     }
 
-    // @Override
-    // public JsonElement hasJsonElement() {
-    //     throw new UnsupportedOperationException("Unimplemented method 'insertJsonElement'");
-    // }
+    @Override
+    public void insertJsonElementInLastNull(JsonElement jsonElement) {
+        
+    }
 
 }

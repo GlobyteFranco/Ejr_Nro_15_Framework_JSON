@@ -28,6 +28,11 @@ public class JsonVector implements JsonElement {
         this.jsonElementList.add(jsonElement);
     }
 
+    @Override
+    public void insertJsonElementInLastNull(JsonElement jsonElement) {
+        // TODO Implementar luego de hacer con el JsonObject
+    }
+
     
 
 }

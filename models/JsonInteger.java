@@ -21,9 +21,9 @@ public class JsonInteger implements JsonElement {
         throw new IllegalStateException("The object does not support this type of insertion");
     }
 
-    // @Override
-    // public JsonElement hasJsonElement() {
-    //     throw new IllegalStateException("The object does not support this type of insertion");
-    // }
+    @Override
+    public void insertJsonElementInLastNull(JsonElement jsonElement) {
+        throw new IllegalStateException("The object does not support this type of insertion");
+    }
 
 }
