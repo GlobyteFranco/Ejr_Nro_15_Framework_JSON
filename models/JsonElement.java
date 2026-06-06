@@ -1,13 +1,9 @@
 package models;
 
-interface JsonElement {
-    public String stringify();
+public interface JsonElement {
+    public String stringify(int level);
 
-    // TODO encarar el problema como hicimos con los tags del ejercicio anterior.
-    // Todos los objetos que implementen la interfaz pueden insertarse un elemento
-    // json o devolver una excepcion de no poder hacerlo
     public void insertJsonElement(JsonElement jsonElement);
 
-    // TODO devolver la ultima referencia a un objeto JsonElement o NULL si no la
-    // tiene
+    public JsonElement checkExistence(JsonElement jsonElement);
 }
