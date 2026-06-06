@@ -3,24 +3,10 @@ package models;
 //TODO hacer una factorie para crear distintos tipos de json basados en la misma interfaz
 //TODO validaciones mediante excpeciones si el orden de los elementos Json desembocan en un formato invalido
 public class JsonDocument {
-    // TODO Hacer una algoritmo de insercin recursiva que valide si estamos
-    // insertando en el documento JSON o en otro objeto/ vector Json. Si se da el
-    // primer caso insertamos directament el la clase, sino tenemos que ir al ultimo
-    // elemento y adentro suyo meterle algo, si nos deja
-    // TODO para agregar Objetos y Vectores hacer algoritmos distintos pero en
-    // funcion de JsonElement asi los pudeo usar con cualquiera
-
-    // TODO para insertar de manera recursiva vamos a hacer un algoritmo que
-    // mantenga el estado en funcion de elemento nulos. Vamos a hacer una funcion
-    // que agregue el elemento correspodiente en el proximo valor nulo que
-    // encuentre. Por ende si creamos un objeto que tiene varios objetos, cando lo
-    // queremos insertar otro objeto creamos ese valor nulo y al siguiente valor que
-    // en teoria iria tambien lo ponemos uno nulo para cuando termine la iteracion
-    // del objeto hijo ya se sepa donde poner el sigiuente y asi continuamente.
-    // Vamos a ir dejando "pistas" como valores nulos para que el programa guarde el
-    // contexto de donde tiene que insertar. Asimismo evetualmente se va a necesitar
-    // una funcion que "limpie" de nulos la estructura
+    // TODO Cuando queremos insertar un objeto, lo hacemos como de costumbre y
+    // actualizamos el target a este
     private JsonElement jsonDocumentContent;
+    private JsonElement jsonElementTarget;
 
     public JsonDocument() {
     }
@@ -29,24 +15,40 @@ public class JsonDocument {
         this.jsonDocumentContent = jsonDocumentContent;
     }
 
-    public void addJsonObject(JsonElement jsonObject) {
+    public void addJsonObject(JsonElement jsonObject) {// Esto es para agregar datos
 
         if (jsonDocumentContent == null) {
             this.jsonDocumentContent = jsonObject;
+            jsonElementTarget = jsonObject;
         } else {
-            jsonDocumentContent.insertJsonElement(jsonObject);
+            jsonElementTarget.insertJsonElement(jsonObject);
         }
     }
 
-    public void addInLastNull() {
-        // TODO
+    public void setTargetElement(JsonElement jsonElement) {// Esto para cuando queremos bajar el scope
+        this.jsonElementTarget = jsonElement;
+    }
+
+    public void zoomOutScope() {
+        // TODO aca cambiariamos al target por su padre
+        JsonElement newElementTarget = jsonDocumentContent.checkExistence(jsonElementTarget);
+        if (newElementTarget != null) {
+            this.jsonElementTarget = newElementTarget;
+        } else {
+            throw new IllegalAccessError("Cannot zoom out of the top element");
+        }
     }
 
     public String obtainStringifiedJson() {
-        return jsonDocumentContent.stringify();
+        return jsonDocumentContent.stringify(0);
     }
 
-    public JsonElement obtainDocumentJson() {
+    public JsonElement getJsonDocumentContent() {
         return jsonDocumentContent;
     }
+
+    public JsonElement getJsonElementTarget() {
+        return jsonElementTarget;
+    }
+
 }

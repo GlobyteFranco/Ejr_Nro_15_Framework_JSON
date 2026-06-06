@@ -2,9 +2,11 @@ package factories;
 
 import models.JsonElement;
 import models.JsonInteger;
+import models.JsonObject;
 import models.JsonString;
+import models.JsonVector;
 
-public class JsonFactorie {
+public class JsonFactory {
     public JsonElement createJsonString(String text) {
         return new JsonString(text);
     }
@@ -13,15 +15,13 @@ public class JsonFactorie {
         return new JsonInteger(value);
     }
 
-    public JsonElement createJsonObject() {
-        // TODO hacer xs
-        return null;
+    public JsonElement createEmptyJsonObject() {
+        return new JsonObject();
 
     }
 
-    public JsonElement createJsonArray() {
-        // TODO hacer xs
-        return null;
+    public JsonElement createEmptyJsonArray() {
+        return new JsonVector();
 
     }
 }

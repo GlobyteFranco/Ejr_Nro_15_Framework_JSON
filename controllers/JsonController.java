@@ -1,17 +1,14 @@
 package controllers;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import factories.JsonFactorie;
+import factories.JsonFactory;
 import models.JsonDocument;
 import models.JsonElement;
 
 public class JsonController {
     JsonDocument jsonDocument;
-    JsonFactorie jsonFactorie;
+    JsonFactory jsonFactorie;
 
-    public JsonController(JsonDocument jsonDocument, JsonFactorie jsonFactorie) {
+    public JsonController(JsonDocument jsonDocument, JsonFactory jsonFactorie) {
         this.jsonDocument = jsonDocument;
         this.jsonFactorie = jsonFactorie;
     }
@@ -25,14 +22,26 @@ public class JsonController {
         this.jsonDocument.addJsonObject(jsonFactorie.createJsonInt(value));
     }
 
-    public void addObject() {// TODO Tenemos que hacer una version del object que entienda el view y
-                             // pasarsela por parametros solamente de tipos primitivos
+    public void addObject(String text) {
+        if (text == null) {
 
-        Map<String, JsonElement> mapInser = new LinkedHashMap<String, JsonElement>();
-        
+            JsonElement jsonOjectInsertion = jsonFactorie.createEmptyJsonObject();
+            jsonDocument.addJsonObject(jsonOjectInsertion);
+            jsonDocument.setTargetElement(jsonOjectInsertion);
+        } else {
+            jsonDocument.addJsonObject(jsonFactorie.createJsonString(text));
+
+        }
+
     }
 
-    public void addArray() {// TODO Idem
+    public void addArray() {
+        JsonElement jsonArrayInsertion = jsonFactorie.createEmptyJsonArray();
+        jsonDocument.addJsonObject(jsonArrayInsertion);
+        jsonDocument.setTargetElement(jsonArrayInsertion);
+    }
 
+    public String displayJson() {
+        return jsonDocument.obtainStringifiedJson();
     }
 }

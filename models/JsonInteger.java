@@ -11,7 +11,7 @@ public class JsonInteger implements JsonElement {
     }
 
     @Override
-    public String stringify() {
+    public String stringify(int level) {
 
         return jsonInteger.toString();
     }
@@ -21,9 +21,36 @@ public class JsonInteger implements JsonElement {
         throw new IllegalStateException("The object does not support this type of insertion");
     }
 
+    
+
     @Override
-    public void insertJsonElementInLastNull(JsonElement jsonElement) {
-        throw new IllegalStateException("The object does not support this type of insertion");
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        JsonInteger other = (JsonInteger) obj;
+        if (jsonInteger == null) {
+            if (other.jsonInteger != null)
+                return false;
+        } else if (!jsonInteger.equals(other.jsonInteger))
+            return false;
+        return true;
     }
+
+    @Override
+    public JsonElement checkExistence(JsonElement jsonElement) {
+        if (this.equals(jsonElement)) {
+            return this;
+        } else {
+            return null;
+        }
+    }
+
+    
+
+   
 
 }

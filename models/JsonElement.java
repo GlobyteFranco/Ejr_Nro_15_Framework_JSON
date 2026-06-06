@@ -1,10 +1,9 @@
 package models;
 
 public interface JsonElement {
-    public String stringify();
+    public String stringify(int level);
 
     public void insertJsonElement(JsonElement jsonElement);
 
-    public void insertJsonElementInLastNull(JsonElement jsonElement);
-
+    public JsonElement checkExistence(JsonElement jsonElement);
 }
